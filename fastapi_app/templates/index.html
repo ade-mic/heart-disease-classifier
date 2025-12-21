@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction - FastAPI</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>❤️ Heart Disease Prediction System</h1>
+            <p class="subtitle">Powered by FastAPI - High Performance ML API</p>
+            <div class="api-links">
+                <a href="/docs" target="_blank" class="api-link">📚 Interactive API Docs</a>
+                <a href="/redoc" target="_blank" class="api-link">📖 ReDoc</a>
+            </div>
+        </header>
+
+        <div class="content">
+            <form id="predictionForm">
+                <div class="form-grid">
+                    <!-- Demographics Section -->
+                    <div class="form-section">
+                        <h2>📊 Patient Demographics</h2>
+                        
+                        <div class="form-group">
+                            <label for="age" title="Patient's age in years">Age (years) <span class="required">*</span></label>
+                            <input type="number" id="age" name="age" min="1" max="120" step="any" value="50" required placeholder="e.g., 50">
+                            <small>📌 Age of the patient (1-120 years)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sex" title="Biological sex of the patient"><strong>sex:</strong> Sex <span class="required">*</span></label>
+                            <select id="sex" name="sex" required>
+                                <option value="1">Male (1)</option>
+                                <option value="0">Female (0)</option>
+                            </select>
+                            <small>📌 <code>sex</code> - Biological sex: Male=1, Female=0</small>
+                        </div>
+                    </div>
+
+                    <!-- Cardiovascular Measurements -->
+                    <div class="form-section">
+                        <h2>💓 Cardiovascular Measurements</h2>
+                        
+                        <div class="form-group">
+                            <label for="trestbps" title="Resting blood pressure measured in mm Hg">Resting Blood Pressure (trestbps) <span class="required">*</span></label>
+                            <input type="number" id="trestbps" name="trestbps" min="80" max="200" step="any" value="120" required placeholder="e.g., 120">
+                            <small>📌 Resting BP in mm Hg (normal: ~120/80, range: 80-200)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="chol" title="Serum cholesterol level in mg/dl">Serum Cholesterol (chol) <span class="required">*</span></label>
+                            <input type="number" id="chol" name="chol" min="100" max="600" step="any" value="200" required placeholder="e.g., 200">
+                            <small>📌 Total cholesterol in mg/dl (normal: <200, range: 100-600)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fbs" title="Fasting blood sugar greater than 120 mg/dl"><strong>fbs:</strong> Fasting Blood Sugar > 120 mg/dl <span class="required">*</span></label>
+                            <select id="fbs" name="fbs" required>
+                                <option value="0">No (0) - Normal</option>
+                                <option value="1">Yes (1) - Elevated</option>
+                            </select>
+                            <small>📌 <code>fbs</code> - 1=True (>120 mg/dl), 0=False (≤120 mg/dl)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="thalach" title="Maximum heart rate achieved during exercise">Max Heart Rate Achieved (thalach) <span class="required">*</span></label>
+                            <input type="number" id="thalach" name="thalach" min="60" max="220" step="any" value="150" required placeholder="e.g., 150">
+                            <small>📌 Maximum heart rate during exercise in bpm (60-220)</small>
+                        </div>
+                    </div>
+
+                    <!-- Clinical Tests -->
+                    <div class="form-section">
+                        <h2>🏥 Clinical Tests</h2>
+                        
+                        <div class="form-group">
+                            <label for="cp" title="Type of chest pain experienced"><strong>cp:</strong> Chest Pain Type <span class="required">*</span></label>
+                            <select id="cp" name="cp" required>
+                                <option value="0">0 - Typical Angina</option>
+                                <option value="1">1 - Atypical Angina</option>
+                                <option value="2">2 - Non-anginal Pain</option>
+                                <option value="3">3 - Asymptomatic</option>
+                            </select>
+                            <small>📌 <code>cp</code> - Type of chest pain: 0=typical angina, 1=atypical, 2=non-anginal, 3=asymptomatic</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="restecg" title="Resting electrocardiographic results"><strong>restecg:</strong> Resting ECG Results <span class="required">*</span></label>
+                            <select id="restecg" name="restecg" required>
+                                <option value="0">0 - Normal</option>
+                                <option value="1">1 - ST-T Wave Abnormality</option>
+                                <option value="2">2 - Left Ventricular Hypertrophy</option>
+                            </select>
+                            <small>📌 <code>restecg</code> - Resting ECG: 0=normal, 1=ST-T abnormality, 2=LV hypertrophy</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exang" title="Exercise induced angina"><strong>exang:</strong> Exercise Induced Angina <span class="required">*</span></label>
+                            <select id="exang" name="exang" required>
+                                <option value="0">0 - No</option>
+                                <option value="1">1 - Yes</option>
+                            </select>
+                            <small>📌 <code>exang</code> - Angina during exercise: 1=Yes, 0=No</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="oldpeak" title="ST depression induced by exercise relative to rest">ST Depression (oldpeak) <span class="required">*</span></label>
+                            <input type="number" id="oldpeak" name="oldpeak" min="0" max="10" step="any" value="0" required placeholder="e.g., 0.0">
+                            <small>📌 ST depression induced by exercise vs rest (0-10, higher=worse)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="slope" title="The slope of the peak exercise ST segment"><strong>slope:</strong> Slope of Peak Exercise ST Segment <span class="required">*</span></label>
+                            <select id="slope" name="slope" required>
+                                <option value="0">0 - Upsloping (best)</option>
+                                <option value="1">1 - Flat</option>
+                                <option value="2">2 - Downsloping (worst)</option>
+                            </select>
+                            <small>📌 <code>slope</code> - ST segment slope: 0=upsloping, 1=flat, 2=downsloping</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ca" title="Number of major vessels colored by fluoroscopy"><strong>ca:</strong> Major Vessels Colored <span class="required">*</span></label>
+                            <select id="ca" name="ca" required>
+                                <option value="0">0 vessels</option>
+                                <option value="1">1 vessel</option>
+                                <option value="2">2 vessels</option>
+                                <option value="3">3 vessels</option>
+                            </select>
+                            <small>📌 <code>ca</code> - Number of major vessels (0-3) colored by fluoroscopy (higher=worse)</small>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="thal" title="Thalium stress test result"><strong>thal:</strong> Thalium Stress Test <span class="required">*</span></label>
+                            <select id="thal" name="thal" required>
+                                <option value="0">0 - Normal</option>
+                                <option value="1">1 - Fixed Defect</option>
+                                <option value="2">2 - Reversible Defect</option>
+                                <option value="3">3 - Not Described</option>
+                            </select>
+                            <small>📌 <code>thal</code> - Thalium result: 0=normal, 1=fixed defect, 2=reversible defect, 3=not described</small>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-predict">🔍 Predict Heart Disease Risk</button>
+            </form>
+
+            <!-- Results Section -->
+            <div id="results" class="results hidden">
+                <h2>Prediction Results</h2>
+                <div id="predictionBox" class="prediction-box"></div>
+                <div id="recommendationBox" class="recommendation-box"></div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-label">No Disease Probability</div>
+                        <div id="noDiseaseProb" class="metric-value">--</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Disease Probability</div>
+                        <div id="diseaseProb" class="metric-value">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Analyzing patient data with FastAPI...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div id="error" class="error hidden"></div>
+        </div>
+
+        <footer>
+            <div class="disclaimer">
+                <strong>⚠️ Disclaimer:</strong> This tool is for educational purposes only and should NOT replace 
+                professional medical advice, diagnosis, or treatment. Always consult with qualified healthcare providers.
+            </div>
+            
+            <div class="info">
+                <h3>📊 Dataset Variables Reference</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                    <div>
+                        <p><strong>age:</strong> Age in years (1-120)</p>
+                        <p><strong>sex:</strong> 1=Male, 0=Female</p>
+                        <p><strong>cp:</strong> Chest pain type (0-3)</p>
+                        <p><strong>trestbps:</strong> Resting blood pressure (mm Hg)</p>
+                        <p><strong>chol:</strong> Serum cholesterol (mg/dl)</p>
+                    </div>
+                    <div>
+                        <p><strong>fbs:</strong> Fasting blood sugar > 120 mg/dl (1=Yes, 0=No)</p>
+                        <p><strong>restecg:</strong> Resting ECG results (0-2)</p>
+                        <p><strong>thalach:</strong> Maximum heart rate achieved</p>
+                        <p><strong>exang:</strong> Exercise induced angina (1=Yes, 0=No)</p>
+                        <p><strong>oldpeak:</strong> ST depression by exercise (0-10)</p>
+                    </div>
+                    <div>
+                        <p><strong>slope:</strong> Slope of peak exercise ST segment (0-2)</p>
+                        <p><strong>ca:</strong> Number of major vessels (0-3)</p>
+                        <p><strong>thal:</strong> Thalium stress test result (0-3)</p>
+                        <p><strong>target:</strong> Heart disease (0=No, 1=Yes) - Model Output</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="info" style="margin-top: 1.5rem;">
+                <h3>About the API</h3>
+                <p><strong>Framework:</strong> FastAPI (High Performance, Async)</p>
+                <p><strong>Model:</strong> Random Forest Classifier with SMOTE</p>
+                <p><strong>Performance:</strong> Accuracy: 100% | Precision: 100% | Recall: 100%</p>
+                <p><strong>Features:</strong> 13 patient health parameters</p>
+                <p><strong>Features:</strong> Automatic validation, Interactive docs, Type safety</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

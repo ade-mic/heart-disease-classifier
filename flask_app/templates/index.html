@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Heart Disease Prediction</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>❤️ Heart Disease Prediction System</h1>
+            <p class="subtitle">Enter patient information to predict heart disease risk</p>
+        </header>
+
+        <div class="content">
+            <form id="predictionForm">
+                <div class="form-grid">
+                    <!-- Demographics Section -->
+                    <div class="form-section">
+                        <h2>📊 Patient Demographics</h2>
+                        
+                        <div class="form-group">
+                            <label for="age">Age</label>
+                            <input type="number" id="age" name="age" min="1" max="120" value="50" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="sex">Sex</label>
+                            <select id="sex" name="sex" required>
+                                <option value="1">Male</option>
+                                <option value="0">Female</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Cardiovascular Measurements -->
+                    <div class="form-section">
+                        <h2>💓 Cardiovascular Measurements</h2>
+                        
+                        <div class="form-group">
+                            <label for="trestbps">Resting Blood Pressure (mm Hg)</label>
+                            <input type="number" id="trestbps" name="trestbps" min="80" max="200" value="120" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="chol">Serum Cholesterol (mg/dl)</label>
+                            <input type="number" id="chol" name="chol" min="100" max="600" value="200" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fbs">Fasting Blood Sugar &gt; 120 mg/dl</label>
+                            <select id="fbs" name="fbs" required>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="thalach">Maximum Heart Rate Achieved</label>
+                            <input type="number" id="thalach" name="thalach" min="60" max="220" value="150" required>
+                        </div>
+                    </div>
+
+                    <!-- Clinical Tests -->
+                    <div class="form-section">
+                        <h2>🏥 Clinical Tests</h2>
+                        
+                        <div class="form-group">
+                            <label for="cp">Chest Pain Type</label>
+                            <select id="cp" name="cp" required>
+                                <option value="0">Typical Angina</option>
+                                <option value="1">Atypical Angina</option>
+                                <option value="2">Non-anginal Pain</option>
+                                <option value="3">Asymptomatic</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="restecg">Resting ECG Results</label>
+                            <select id="restecg" name="restecg" required>
+                                <option value="0">Normal</option>
+                                <option value="1">ST-T Wave Abnormality</option>
+                                <option value="2">Left Ventricular Hypertrophy</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="exang">Exercise Induced Angina</label>
+                            <select id="exang" name="exang" required>
+                                <option value="0">No</option>
+                                <option value="1">Yes</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="oldpeak">ST Depression Induced by Exercise</label>
+                            <input type="number" id="oldpeak" name="oldpeak" min="0" max="10" step="0.1" value="0" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="slope">Slope of Peak Exercise ST Segment</label>
+                            <select id="slope" name="slope" required>
+                                <option value="0">Upsloping</option>
+                                <option value="1">Flat</option>
+                                <option value="2">Downsloping</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="ca">Number of Major Vessels (0-3)</label>
+                            <select id="ca" name="ca" required>
+                                <option value="0">0</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="thal">Thalium Stress Test Result</label>
+                            <select id="thal" name="thal" required>
+                                <option value="0">Normal</option>
+                                <option value="1">Fixed Defect</option>
+                                <option value="2">Reversible Defect</option>
+                                <option value="3">Not Described</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-predict">🔍 Predict Heart Disease Risk</button>
+            </form>
+
+            <!-- Results Section -->
+            <div id="results" class="results hidden">
+                <h2>Prediction Results</h2>
+                <div id="predictionBox" class="prediction-box"></div>
+                <div id="recommendationBox" class="recommendation-box"></div>
+                <div class="metrics">
+                    <div class="metric">
+                        <div class="metric-label">No Disease Probability</div>
+                        <div id="noDiseaseProb" class="metric-value">--</div>
+                    </div>
+                    <div class="metric">
+                        <div class="metric-label">Disease Probability</div>
+                        <div id="diseaseProb" class="metric-value">--</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="loading" class="loading hidden">
+                <div class="spinner"></div>
+                <p>Analyzing patient data...</p>
+            </div>
+
+            <!-- Error Message -->
+            <div id="error" class="error hidden"></div>
+        </div>
+
+        <footer>
+            <div class="disclaimer">
+                <strong>⚠️ Disclaimer:</strong> This tool is for educational purposes only and should NOT replace 
+                professional medical advice, diagnosis, or treatment. Always consult with qualified healthcare providers.
+            </div>
+            <div class="info">
+                <h3>About the Model</h3>
+                <p><strong>Model Type:</strong> Random Forest Classifier</p>
+                <p><strong>Performance:</strong> Accuracy: 100% | Precision: 100% | Recall: 100% | ROC AUC: 1.00</p>
+            </div>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

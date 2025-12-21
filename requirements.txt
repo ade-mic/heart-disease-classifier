@@ -1,0 +1,33 @@
+# Heart Disease Prediction Web Service - Requirements
+
+# Core ML and Data Science (compatible versions)
+numpy>=1.24.0,<2.0.0
+pandas>=2.0.3
+scikit-learn>=1.6.0,<1.7.0
+xgboost>=1.7.6
+imbalanced-learn>=0.14.0
+joblib>=1.3.2
+
+# Visualization
+matplotlib>=3.7.2,<4.0.0
+seaborn>=0.12.2
+shap>=0.42.1
+
+# FastAPI (recommended - high performance, automatic docs)
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+pydantic==2.5.3
+python-multipart==0.0.6
+
+# Streamlit (alternative - easy deployment)
+streamlit==1.28.0
+
+# Flask (alternative deployment)
+Flask==3.0.0
+Flask-Cors==4.0.0
+
+# Production server for Flask
+gunicorn==21.2.0
+
+# Utilities
+Werkzeug==3.0.1
