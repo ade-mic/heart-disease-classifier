@@ -130,13 +130,7 @@ def model_info():
         'features': [
             'age', 'sex', 'cp', 'trestbps', 'chol', 'fbs',
             'restecg', 'thalach', 'exang', 'oldpeak', 'slope', 'ca', 'thal'
-        ],
-        'performance': {
-            'accuracy': '100%',
-            'precision': '100%',
-            'recall': '100%',
-            'roc_auc': '1.00'
-        }
+        ]
     })
 
 if __name__ == '__main__':

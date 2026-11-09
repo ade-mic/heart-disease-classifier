@@ -266,12 +266,6 @@ with st.sidebar:
     This application uses a **Random Forest** machine learning model trained on heart disease data 
     to predict the likelihood of heart disease based on clinical parameters.
     
-    ### Model Performance
-    - **Accuracy:** 100%
-    - **Precision:** 100%
-    - **Recall:** 100%
-    - **ROC AUC:** 1.00
-    
     ### Important Notes
     ⚠️ **Disclaimer:** This tool is for educational purposes only and should NOT replace professional 
     medical advice, diagnosis, or treatment. Always consult with qualified healthcare providers.
