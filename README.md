@@ -4,7 +4,7 @@ A complete machine learning web application for predicting heart disease risk ba
 
 ## 🎯 Features
 
-- **High Accuracy Model**: Random Forest classifier with 100% accuracy on test data
+- **Random Forest Model**: Classifier trained on 13 patient health parameters, with SMOTE for class imbalance
 - **Modern FastAPI Backend**: High performance, automatic API documentation, type validation
 - **User-Friendly Interface**: Beautiful, responsive UI for easy data entry
 - **Real-time Predictions**: Instant heart disease risk assessment
@@ -17,11 +17,7 @@ A complete machine learning web application for predicting heart disease risk ba
 
 - **Algorithm**: Random Forest Classifier with SMOTE for handling class imbalance
 - **Features**: 13 patient health parameters
-- **Performance Metrics**:
-  - Accuracy: 100%
-  - Precision: 100%
-  - Recall: 100%
-  - ROC AUC: 1.00
+- **Output**: Predicted class with probability score
 
 ## 🚀 Quick Start
 
@@ -33,7 +29,8 @@ A complete machine learning web application for predicting heart disease risk ba
 
 1. **Clone or navigate to the project directory**:
    ```bash
-   cd /home/ademich/ml_class/heart_disease_web
+   git clone https://github.com/ade-mic/heart-disease-classifier.git
+   cd heart-disease-classifier
    ```
 
 2. **Create a virtual environment**:
